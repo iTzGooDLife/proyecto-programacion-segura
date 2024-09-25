@@ -16,15 +16,45 @@ El formato de los siguientes es:
 
 Para ../inf225-2023-1-par002-grupo02/Proyecto_Base
 
-![env pb](imagenes_ids/Pasted image 20230426211126.png)
+```env
+PORT_API_CAMIONES = 8081
+PORT_API_MOTORES = 8082
+PORT_WEB = 8080
+DB_USER = "root"
+DB_PASSWORD = "password"
+DB_NAME = "ingsfw"
+DB_PORT = 3306
+DB_HOST = "mysql"
+ROOT_PASSWORD = "secret"
+DB_NAME_MOTORES = "BD02_MOTORES"
+DB_NAME_CAMIONES = "BD02_CAMIONES"
+```
 
 Para ../inf225-2023-1-par002-grupo02/Proyecto_Base/API_CAMIONES
 
-![env api camiones](imagenes_ids/Pasted image 20230426211159.png)
+```env
+PORT_API = 8081
+PORT_WEB = 8080
+DB_USER = "root"
+DB_PASSWORD = "password"
+DB_PORT = 3306
+DB_HOST = "mysql"
+ROOT_PASSWORD = "secret"
+DB_NAME = "BD02_CAMIONES"
+```
 
 Para ../inf225-2023-1-par002-grupo02/Proyecto_Base/API_MOTORES
 
-![env api motores](imagenes_ids/Pasted image 20230426211230.png)
+```env
+PORT_API = 8082
+PORT_WEB = 8080
+DB_USER = "root"
+DB_PASSWORD = "password"
+DB_PORT = 3306
+DB_HOST = "mysql"
+ROOT_PASSWORD = "secret"
+DB_NAME = "BD02_MOTORES"
+```
 
 
 ## Introducción
@@ -39,58 +69,34 @@ Y se dejó un docker-compose general fuera de estas carpetas (o sea en ../inf225
 Levantamos el proyecto estando en ../inf225-2023-1-par002-grupo02/Proyecto_Base,
 acá utilizamos el comando:
 
-`$docker compose up --build`
-
-Lo cual en caso de funcionar, nos debería retornar lo siguiente:
-
-![dc up build](imagenes_ids/Pasted image 20230426203337.png)
+`$ docker compose up --build`
 
 Para comprobar que nuestros contenedores estan levantados con mayor información podemos ejecutar:
 
-`$docker ps -a`
+`$ docker ps -a`
 
-Lo cual nos retorna:
-
-![dc ps](imagenes_ids/Pasted image 20230426203613.png)
 
 Si deseamos bajar los contenedores, esto sería ejecutando:
 
-`$docker compose down`
+`$ docker compose down`
 
-Lo cual nos retorna:
-
-![dc down](imagenes_ids/Pasted image 20230426205648.png)
-
-Entonces al realizar nuevamente:
-
-`$docker ps -a`
-
-Veremos que ya no están los contenedores activos.
-
-![docker ps2](imagenes_ids/Pasted image 20230426205800.png)
 
 ## Revisando los puertos
 
 Acá podemos notar en qué puertos están levantados los distintos contenedores, web está levantado en el puerto 8080, por lo tanto, si vamos en nuestro navegador favorito a:
-http://localhost:8080/
-
-Acá veremos nuestro front_end (pendiente a modificarse), en el cual usamos React con el ambiente de desarrollo Vite.
-
-![8080](imagenes_ids/Pasted image 20230426203918.png)
+`http://localhost:8080/`
 
 Ahora si queremos probar el end-point para cierta API podremos hacerlo en Postman, ya que API_CAMIONES y API_MOTORES están levantados en distintos puertos (8081 y 8082 respectivamente) para API_CAMIONES realizamos:
 
 `GET localhost:8081/createTable`
 
 Lo cual nos retornará un '200 OK' y 'Tabla creada', que es lo que esperamos.
-![8081](imagenes_ids/Pasted image 20230426205015.png)
 
 Para API_MOTORES sería:
 
 `GET localhost:8082/createTable`
 
 Lo cual nos retornará un '200 OK' y 'Tabla creada', que es lo que esperamos.
-![8082](imagenes_ids/Pasted image 20230426205516.png)
 
 
 
