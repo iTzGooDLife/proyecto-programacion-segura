@@ -1,0 +1,71 @@
+version: "3.4"
+
+services:
+  api_camiones:
+    image: api_camiones
+    container_name: api_camiones
+    restart: always
+    build:
+      context: ./API_CAMIONES/
+      dockerfile: ./Dockerfile
+    ports:
+      - "${PORT_API_CAMIONES}:${PORT_API_CAMIONES}"
+    volumes:
+      - ./API_CAMIONES/:/usr/app
+    depends_on:
+      - mysql
+
+  api_motores:
+    image: api_motores
+    container_name: api_motores
+    restart: always
+    build:
+      context: ./API_MOTORES/
+      dockerfile: ./Dockerfile
+    ports:
+      - "${PORT_API_MOTORES}:${PORT_API_MOTORES}"
+    volumes:
+      - ./API_MOTORES/:/usr/app
+    depends_on:
+      - mysql
+  
+  web:
+    image: web
+    container_name: web
+    restart: always
+    build:
+      context: ./front_end/
+      dockerfile: ./Dockerfile
+    ports:
+      - "${PORT_WEB}:${PORT_WEB}"
+    volumes:
+      - ./front_end/:/usr/app
+    environment:
+      MYSQL_HOST: ${DB_HOST}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DB: ${DB_NAME}
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    build:
+      context: ./db/
+      dockerfile: ./Dockerfile
+      args:
+        DB_NAME_CAMIONES: ${DB_NAME_CAMIONES}
+        DB_NAME_MOTORES: ${DB_NAME_MOTORES}
+    hostname: ${DB_HOST} 
+    volumes:
+      - db:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD} 
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    
+
+volumes: 
+  db:  
